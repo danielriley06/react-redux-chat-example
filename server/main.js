@@ -5,8 +5,12 @@ const webpackConfig = require('../config/webpack.config')
 const project = require('../config/project.config')
 const compress = require('compression')
 const passport = require('passport')
+const mongoose = require('mongoose')
 
 const app = express()
+
+// connect our DB
+mongoose.connect(project.mongo_uri)
 
 //load routers
 const usersRouter = express.Router()

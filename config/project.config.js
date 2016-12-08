@@ -28,6 +28,10 @@ const config = {
   server_port : process.env.PORT || 3000,
 
   // ----------------------------------
+  // MongoDB Configuration
+  // ----------------------------------
+  mongo_uri : 'mongodb://localhost/slacker_dev',
+  // ----------------------------------
   // Compiler Configuration
   // ----------------------------------
   compiler_babel : {
