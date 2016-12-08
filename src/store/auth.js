@@ -80,14 +80,14 @@ export function _storeUser (username) {
 }
 
 export const isAuthenticated = () => {
+  console.log(localStorage.getItem('username'))
   return !!localStorage.getItem('username')
 }
 
 export const setup = () => {
   return (dispatch, getState) => {
-    var token = localStorage.getItem('token')
-    var user = JSON.parse(localStorage.getItem('user'))
-    dispatch(authLoginSuccess({ user, token }))
+    var username = JSON.parse(localStorage.getItem('username'))
+    dispatch(authLoginSuccess({ username }))
   }
 }
 
@@ -200,7 +200,8 @@ const initialState = new Auth({
   isLoading: false,
   isAuthenticated: false,
   hasError: false,
-  errors: []
+  errors: [],
+  username: undefined
 })
 
 const ACTION_HANDLERS = {
@@ -235,4 +236,9 @@ const ACTION_HANDLERS = {
     .set('username', undefined)
     .set('isAuthenticated', false)
   }
+}
+
+export default function authReducer (state = initialState, action) {
+  const handler = ACTION_HANDLERS[action.type]
+  return handler ? handler(state, action) : state
 }
