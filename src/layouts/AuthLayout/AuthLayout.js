@@ -4,9 +4,17 @@ import './AuthLayout.scss'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 export const AuthLayout = ({ children }) => {
-  return (<div className='container text-center core-layout__viewport'>
-    {children}
-  </div>)
+  return (
+    <div>
+      <MuiThemeProvider>
+        <div className='containerFluid text-center'>
+          <div className='core-layout__viewport'>
+            {children}
+          </div>
+        </div>
+      </MuiThemeProvider>
+    </div>
+  )
 }
 
 AuthLayout.propTypes = {

@@ -1,3 +1,3 @@
-import CoreLayout from './CoreLayout'
+import AuthLayout from './AuthLayout'
 
-export default CoreLayout
+export default AuthLayout
