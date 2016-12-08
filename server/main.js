@@ -4,20 +4,19 @@ const webpack = require('webpack')
 const webpackConfig = require('../config/webpack.config')
 const project = require('../config/project.config')
 const compress = require('compression')
-const proxy = require('http-proxy-middleware')
+const passport = require('passport')
 
 const app = express()
+
+//load routers
+const usersRouter = express.Router()
+require('./routes/user_routes')(usersRouter, passport)
+app.use('/api', usersRouter)
 
 // This rewrites all routes requests to the root /index.html file
 // (ignoring file requests). If you want to implement universal
 // rendering, you'll want to remove this middleware.
 app.use(require('connect-history-api-fallback')())
-
-// proxy middleware options - Enable api-proxy if it has been enabled in the config.
-if (project.proxy && project.proxy.enabled) {
-const apiProxy = proxy('/api', {target: project.proxy.options.host});
-app.use(apiProxy)
-}
 
 // Apply gzip compression
 app.use(compress())
