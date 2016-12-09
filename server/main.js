@@ -6,11 +6,14 @@ const project = require('../config/project.config')
 const compress = require('compression')
 const passport = require('passport')
 const mongoose = require('mongoose')
+require('../config/passport')(passport)
 
 const app = express()
 
 // connect our DB
 mongoose.connect(project.mongo_uri)
+
+app.use(passport.initialize())
 
 //load routers
 const usersRouter = express.Router()
