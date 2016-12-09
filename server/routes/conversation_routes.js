@@ -7,7 +7,7 @@ module.exports = function(router) {
   // Get all conversations of user
   router.get('/conversations/:id', function(req, res) {
 
-    Conversation.find({ $or: [ {between: req.params.name}, {private: false } ] }, {id:1, private: 1, subscribers: 1, _id:0}, function(err, data) {
+    Conversation.find({ $or: [ {between: req.params.name}, {private: false } ] }, {id:1, subscribers: 1, _id:0}, function(err, data) {
       if(err) {
         console.log(err);
         return res.status(500).json({msg: 'internal server error'});
@@ -31,7 +31,7 @@ module.exports = function(router) {
   })
 
   // Join a conversation
-  router.post('/conversations/:name', function(req, res) {
+  router.post('/conversations/:id', function(req, res) {
 
   })
 }
