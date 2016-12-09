@@ -6,19 +6,30 @@ const project = require('../config/project.config')
 const compress = require('compression')
 const passport = require('passport')
 const mongoose = require('mongoose')
+const SocketIo = require('socket.io')
 require('../config/passport')(passport)
 
 const app = express()
 
-// connect our DB
+// DB Connection
 mongoose.connect(project.mongo_uri)
+process.on('uncaughtException', function (err) {
+  console.log(err);
+})
 
+// Initialize passport for auth
 app.use(passport.initialize())
 
 //load routers
 const usersRouter = express.Router()
+const conversationRouter = express.Router()
+const messageRouter = express.Router()
 require('./routes/user_routes')(usersRouter, passport)
+require('./routes/message_routes')(messageRouter)
+require('./routes/conversation_routes')(conversationRouter)
+app.use('/api', messageRouter)
 app.use('/api', usersRouter)
+app.use('/api', conversationRouter)
 
 // This rewrites all routes requests to the root /index.html file
 // (ignoring file requests). If you want to implement universal
