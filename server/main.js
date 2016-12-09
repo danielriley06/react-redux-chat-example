@@ -20,7 +20,7 @@ process.on('uncaughtException', function (err) {
 // Initialize passport for auth
 app.use(passport.initialize())
 
-//load routers
+// Load routes for API
 const usersRouter = express.Router()
 const conversationRouter = express.Router()
 const messageRouter = express.Router()
@@ -30,6 +30,10 @@ require('./routes/conversation_routes')(conversationRouter)
 app.use('/api', messageRouter)
 app.use('/api', usersRouter)
 app.use('/api', conversationRouter)
+
+// Initialize SocketIO server
+const io = new SocketIo(server, {path: '/api/chat'})
+const socketEvents = require('./socketEvents')(io)
 
 // This rewrites all routes requests to the root /index.html file
 // (ignoring file requests). If you want to implement universal
