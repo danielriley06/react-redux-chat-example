@@ -7,7 +7,7 @@ export const AuthLayout = ({ children }) => {
   return (
     <div>
       <MuiThemeProvider>
-        <div className='containerFluid text-center'>
+        <div className='loginContainer'>
           <div className='core-layout__viewport'>
             {children}
           </div>
