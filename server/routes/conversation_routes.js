@@ -7,11 +7,14 @@ module.exports = function(router) {
   // Get all conversations of user
   router.get('/conversations/:id', function(req, res) {
 
-    Conversation.find({ $or: [ {between: req.params.name}, {private: false } ] }, {id:1, subscribers: 1, _id:0}, function(err, data) {
-      if(err) {
-        console.log(err);
-        return res.status(500).json({msg: 'internal server error'});
-      }
+    Conversation.find(
+      { $or: [ {between: req.params.name}, {private: false } ] },
+      {id:1, subscribers: 1, _id:0},
+      function(err, data) {
+        if(err) {
+          console.log(err);
+          return res.status(500).json({msg: 'internal server error'});
+        }
 
       res.json(data)
     })
@@ -31,7 +34,17 @@ module.exports = function(router) {
   })
 
   // Join a conversation
-  router.post('/conversations/:id', function(req, res) {
+  router.patch('/conversations/join_conversation', function(req, res) {
+    Conversation.findOneAndUpdate(
+      {_id: req.query.conversationID},
+      {$push: {subscribers: req.params.userID},
+      function(err, data) {
+        if(err) {
+          console.log(err);
+          return res.status(500).json({msg: 'internal server error'});
+        }
 
+      res.json(data)
+    })
   })
 }
