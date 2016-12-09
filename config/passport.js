@@ -2,11 +2,6 @@ var LocalStrategy = require('passport-local').Strategy
 var User = require('../server/models/User')
 
 var host = process.env.NODE_ENV !== 'production' ? 'localhost:3000' : 'slackclone.herokuapp.com'
-if (process.env.NODE_ENV !== 'production') {
-  var oAuthConfig = require('./oAuthConfig.dev')
-} else {
-  var oAuthConfig = require('./oAuthConfig.prod')
-}
 
 module.exports = function(passport) {
 

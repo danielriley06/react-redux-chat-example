@@ -4,22 +4,6 @@ var User = require('../models/User.js')
 module.exports = function loadUserRoutes(router, passport) {
   router.use(bodyparser.json())
 
-  router.get('/test', function(req, res){
-    res.send('<h1>Hello world</h1>');
-  })
-
-  router.get('/auth/facebook', passport.authenticate('facebook', {
-    session: false,
-    successRedirect: '/chat',
-    failureRedirect: '/'
-  }))
-
-  router.get('/auth/facebook/callback', passport.authenticate('facebook', {
-    session: false,
-    successRedirect: '/chat',
-    failureRedirect: '/'
-  }))
-
   router.post('/signup', passport.authenticate('local-signup', { session: false}), function(req, res) {
     res.json(req.user)
   })
