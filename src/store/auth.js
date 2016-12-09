@@ -70,23 +70,23 @@ export function authNotLoggedIn (payload) {
 }
 
 export function _removeUser () {
-  localStorage.removeItem('username')
+  sessionStorage.removeItem('username')
 }
 
 export function _storeUser (username) {
   if (username || username !== 'undefined') {
-    localStorage.setItem('username', JSON.stringify(username))
+    sessionStorage.setItem('username', JSON.stringify(username))
   }
 }
 
 export const isAuthenticated = () => {
   console.log(localStorage.getItem('username'))
-  return !!localStorage.getItem('username')
+  return !!sessionStorage.getItem('username')
 }
 
 export const setup = () => {
   return (dispatch, getState) => {
-    var username = JSON.parse(localStorage.getItem('username'))
+    var username = JSON.parse(sessionStorage.getItem('username'))
     dispatch(authLoginSuccess({ username }))
   }
 }
@@ -98,12 +98,17 @@ export const signup = (payload) => {
      method: 'post',
      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'
      },
-     body: JSON.stringify(user)
+     body: JSON.stringify({
+       username: payload.username,
+       password: payload.password,
      })
+    })
     .then((response) => {
       if (response.status >= 200 && response.status <= 300) {
         log.debug('Auth::signup::checkStatus', response)
-        return response
+        sessionStorage.setItem('username', JSON.stringify(payload.username))
+        dispatch(authSignupSuccess(payload))
+        dispatch(browserHistory.push('/chat'))
       } else if (response.status === 401) {
         log.debug('Auth::signup::checkStatus', response)
         throw response
@@ -111,11 +116,6 @@ export const signup = (payload) => {
         log.debug('Auth::signup::checkStatus', response)
         return response
       }
-    })
-    .then(({ user }) => {
-      log.debug('Auth::signup::response', token, user)
-      dispatch(authSignupSuccess({ user }))
-      dispatch(browserHistory.push('/chat'))
     })
     .catch((err) => {
       dispatch(authNotLoggedIn(err))
@@ -139,12 +139,17 @@ export const login = (payload) => {
      method: 'post',
      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'
      },
-     body: JSON.stringify(user)
+     body: JSON.stringify({
+       username: payload.username,
+       password: payload.password,
      })
+    })
     .then((response) => {
       if (response.status >= 200 && response.status <= 300) {
-        log.debug('Auth::login::checkStatus', response)
-        return response
+        log.debug('Auth::login::response', payload.username)
+        sessionStorage.setItem('username', JSON.stringify(payload.username))
+        dispatch(authLoginSuccess(payload))
+        dispatch(browserHistory.push('/app'))
       } else if (response.status === 401) {
         log.debug('Auth::login::checkStatus', response)
         throw response
@@ -152,11 +157,6 @@ export const login = (payload) => {
         log.debug('Auth::login::checkStatus', response)
         return response
       }
-    })
-    .then(({ token, user }) => {
-      log.debug('Auth::login::response', token, user)
-      dispatch(authLoginSuccess({ token, user }))
-      dispatch(browserHistory.push('/chat'))
     })
     .catch((err) => {
       dispatch(authNotLoggedIn(err))
