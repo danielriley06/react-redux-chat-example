@@ -1,7 +1,6 @@
 @import 'base';
 
-// Some best-practice CSS that's useful for most apps
-// Just remove them if they're not what you want
+
 html {
   box-sizing: border-box;
 }
@@ -103,6 +102,6 @@ html [type="button"], /* 1 */
     margin: 0 auto;
 }
 
-.ChatView {
+.ListView {
   max-width: 30%;
 }
