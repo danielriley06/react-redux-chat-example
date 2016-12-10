@@ -35,7 +35,7 @@ like I did on [my last react project.](https://github.com/danielriley06/JobHub-R
 ## Todo
 * Refactor reducer composition
 * Implement Normalizr library to normalize state
-* Prepare production app for deployment
+* Changes needed to prepare app for deployment
 
 ## Special Thanks
 * [Redux Without Profanity](https://tonyhb.gitbooks.io/redux-without-profanity/content/index.html)
