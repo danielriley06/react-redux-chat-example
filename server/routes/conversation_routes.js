@@ -37,11 +37,11 @@ module.exports = function(router) {
   router.patch('/conversations/join_conversation', function(req, res) {
     Conversation.findOneAndUpdate(
       {_id: req.query.conversationID},
-      {$push: {subscribers: req.params.userID},
+      {$push: {subscribers: req.params.userID}},
       function(err, data) {
         if(err) {
           console.log(err);
-          return res.status(500).json({msg: 'internal server error'});
+          return res.status(500).json({msg: 'internal server error'})
         }
 
       res.json(data)
