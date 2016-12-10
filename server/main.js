@@ -6,7 +6,7 @@ const project = require('../config/project.config')
 const compress = require('compression')
 const passport = require('passport')
 const mongoose = require('mongoose')
-const SocketIo = require('socket.io')
+
 require('../config/passport')(passport)
 
 const app = express()
@@ -32,8 +32,7 @@ app.use('/api', usersRouter)
 app.use('/api', conversationRouter)
 
 // Initialize SocketIO server
-const io = new SocketIo(server, {path: '/api/chat'})
-const socketEvents = require('./socketEvents')(io)
+
 
 // This rewrites all routes requests to the root /index.html file
 // (ignoring file requests). If you want to implement universal
