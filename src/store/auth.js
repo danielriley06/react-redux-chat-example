@@ -23,6 +23,13 @@ const Auth = new Record({
   username: undefined
 })
 
+export function receiveAuth() {
+  const payload = {username: JSON.parse(sessionStorage.getItem('username'))}
+  return {
+    type: AUTH_LOGIN_SUCCESS,
+    payload
+  }
+}
 
 export function authSignupRequest () {
   return {
