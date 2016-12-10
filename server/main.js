@@ -12,6 +12,7 @@ require('../config/passport')(passport)
 const app = express()
 
 // DB Connection
+mongoose.Promise = global.Promise
 mongoose.connect(project.mongo_uri)
 process.on('uncaughtException', function (err) {
   console.log(err);
