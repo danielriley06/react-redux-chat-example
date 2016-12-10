@@ -1,4 +1,5 @@
 var Conversation = require('../models/Conversation')
+var User = require('../models/User')
 var bodyparser = require('body-parser')
 
 module.exports = function(router) {
@@ -29,6 +30,18 @@ module.exports = function(router) {
         return res.status(500).json({msg: 'internal server error'})
       }
 
+      res.json(data)
+    })
+  })
+
+  // Create a new conversation
+  router.get('/users', function(req, res) {
+
+    User.find({}, function(err, data) {
+      if(err) {
+        console.log(err);
+        return res.status(500).json({msg: 'internal server error'});
+      }
       res.json(data)
     })
   })

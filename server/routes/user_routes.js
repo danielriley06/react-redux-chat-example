@@ -5,7 +5,7 @@ module.exports = function loadUserRoutes(router, passport) {
   router.use(bodyparser.json())
 
   router.post('/signup', passport.authenticate('local-signup', { session: false}), function(req, res) {
-    res.json(req.user)
+    res.json(req.newUser)
   })
 
   router.post('/login', passport.authenticate('local-login', { session: false}), function(req, res) {

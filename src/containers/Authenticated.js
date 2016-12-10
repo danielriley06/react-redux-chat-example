@@ -30,11 +30,8 @@ export function Authenticated (Component) {
       const { store: { dispatch }, router } = this.context
       const { auth } = this.props
       const isLoggedIn = Auth.isAuthenticated()
-      const userExists = !lodash.isEmpty(auth.get('username'))
-
-      if (!userExists) {
-        dispatch(Auth.setup())
-      }
+      const userExists = !lodash.isEmpty(auth.get('user'))
+      const tokenExists = !lodash.isEmpty(auth.get('token'))
 
       if (!isLoggedIn) {
         router.replace('/auth/login')

@@ -13,6 +13,7 @@ export const AUTH_SIGNUP_FAILURE = 'AUTH_SIGNUP_FAILURE'
 export const AUTH_LOGOUT_REQUEST = 'AUTH_LOGOUT_REQUEST'
 export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS'
 export const AUTH_NOT_LOGGED_IN = 'AUTH_NOT_LOGGED_IN'
+export const RECEIVE_SOCKET = 'RECEIVE_SOCKET'
 
 
 const Auth = new Record({
@@ -35,9 +36,11 @@ export function authSignupRequest () {
   return {
     type: AUTH_SIGNUP_REQUEST
   }
-}export function authSignupSuccess () {
+}
+export function authSignupSuccess (payload) {
   return {
-    type: AUTH_SIGNUP_SUCCESS
+    type: AUTH_SIGNUP_SUCCESS,
+    payload
   }
 }
 export function authLogoutRequest () {
@@ -87,7 +90,6 @@ export function _storeUser (username) {
 }
 
 export const isAuthenticated = () => {
-  console.log(localStorage.getItem('username'))
   return !!sessionStorage.getItem('username')
 }
 
@@ -110,12 +112,12 @@ export const signup = (payload) => {
        password: payload.password,
      })
     })
-    .then((response) => {
+    .then(response => {
       if (response.status >= 200 && response.status <= 300) {
-        log.debug('Auth::signup::checkStatus', response)
+        log.debug('Auth::signupSuccess::response', response)
         sessionStorage.setItem('username', JSON.stringify(payload.username))
-        dispatch(authSignupSuccess(payload))
-        dispatch(browserHistory.push('/chat'))
+        dispatch(authLoginSuccess(payload))
+        dispatch(browserHistory.push('/app'))
       } else if (response.status === 401) {
         log.debug('Auth::signup::checkStatus', response)
         throw response
@@ -151,7 +153,7 @@ export const login = (payload) => {
        password: payload.password,
      })
     })
-    .then((response) => {
+    .then(response => {
       if (response.status >= 200 && response.status <= 300) {
         log.debug('Auth::login::response', payload.username)
         sessionStorage.setItem('username', JSON.stringify(payload.username))
@@ -195,6 +197,13 @@ export const logout = () => {
   }
 }
 
+export function receiveSocket(socketID) {
+  return {
+    type: RECEIVE_SOCKET,
+    socketID
+  }
+}
+
 export const actions = {
   login,
   logout,
@@ -207,8 +216,7 @@ const initialState = new Auth({
   isLoading: false,
   isAuthenticated: false,
   hasError: false,
-  errors: [],
-  username: undefined
+  errors: []
 })
 
 const ACTION_HANDLERS = {
