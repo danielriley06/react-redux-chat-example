@@ -28,76 +28,12 @@ const rightIconMenu = (
 )
 
 
-export const UserList = () => (
-  <List>
-    <Subheader>Online Users</Subheader>
-    <ListItem
-      primaryText="Brendan Lim"
-      rightIconButton={rightIconMenu}
-    />
-    <ListItem
-      primaryText="Eric Hoffman"
-      rightIconButton={rightIconMenu}
-    />
-    <ListItem
-      primaryText="Grace Ng"
-      rightIconButton={rightIconMenu}
-    />
-    <ListItem
-      primaryText="Kerem Suer"
-      rightIconButton={rightIconMenu}
-    />
-    <ListItem
-      primaryText="Raquel Parrado"
-      rightIconButton={rightIconMenu}
-    />
-    <ListItem
-      primaryText="Brendan Lim"
-      rightIconButton={rightIconMenu}
-    />
-    <ListItem
-      primaryText="Eric Hoffman"
-      rightIconButton={rightIconMenu}
-    />
-    <ListItem
-      primaryText="Grace Ng"
-      rightIconButton={rightIconMenu}
-    />
-    <ListItem
-      primaryText="Kerem Suer"
-      rightIconButton={rightIconMenu}
-    />
-    <ListItem
-      primaryText="Raquel Parrado"
-      leftAvatar={<Avatar src="images/raquelromanp-128.jpg" />}
-      rightIconButton={rightIconMenu}
-    />
-    <ListItem
-      primaryText="Brendan Lim"
-      leftAvatar={<Avatar src="images/ok-128.jpg" />}
-      rightIconButton={rightIconMenu}
-    />
-    <ListItem
-      primaryText="Eric Hoffman"
-      leftAvatar={<Avatar src="images/kolage-128.jpg" />}
-      rightIconButton={rightIconMenu}
-    />
-    <ListItem
-      primaryText="Grace Ng"
-      leftAvatar={<Avatar src="images/uxceo-128.jpg" />}
-      rightIconButton={rightIconMenu}
-    />
-    <ListItem
-      primaryText="Kerem Suer"
-      leftAvatar={<Avatar src="images/kerem-128.jpg" />}
-      rightIconButton={rightIconMenu}
-    />
-    <ListItem
-      primaryText="Raquel Parrado"
-      leftAvatar={<Avatar src="images/raquelromanp-128.jpg" />}
-      rightIconButton={rightIconMenu}
-    />
-  </List>
+export const UserList = ({user}) => (
+  <ListItem
+    key={user._id.toString()}
+    primaryText={user.local.username}
+    rightIconButton={rightIconMenu}
+  />
 )
 
 export default UserList

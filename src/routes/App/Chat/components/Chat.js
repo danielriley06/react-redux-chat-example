@@ -3,7 +3,9 @@ import UserList from './UserList'
 import ChatList from './ChatList'
 import ConversationComposer from './ConversationComposer'
 import * as authActions from 'store/auth'
+import * as actions from '../modules/chat'
 import {List, ListItem} from 'material-ui/List'
+import Subheader from 'material-ui/Subheader'
 
 import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble'
 
@@ -22,7 +24,6 @@ export default class Chat extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      privateChannelModal: false,
       targetedUser: ''
     }
   }
@@ -69,38 +70,30 @@ export default class Chat extends Component {
     dispatch(actions.changeChannel(channel));
     dispatch(actions.fetchMessages(channel.name));
   }
-  handleClickOnUser(user) {
-    this.setState({ privateChannelModal: true, targetedUser: user });
-  }
-  closePrivateChannelModal(event) {
-    event.preventDefault();
-    this.setState({privateChannelModal: false});
-  }
-  handleSendDirectMessage() {
+
+  handleStartConversation(target) {
+    this.setState({ targetedUser: target })
     const { dispatch, socket, conversations, user } = this.props;
-    const doesPrivateChannelExist = conversations.filter(item => {
-      return item.name === (`${this.state.targetedUser.username}+${user.username}` || `${user.username}+${this.state.targetedUser.username}`)
+    const doesConversationExist = conversations.filter(item => {
+      return item.subscribers.indexOf(`${this.state.targetedUser.username}`) && item.subscribers.indexOf(`${user.username}`)
     })
-    if (user.username !== this.state.targetedUser.username && doesPrivateChannelExist.length === 0) {
-      const newChannel = {
-        name: `${this.state.targetedUser.username}+${user.username}`,
+    if (user.username !== this.state.targetedUser.username && doesConversationExist.length === 0) {
+      const newConversation = {
         id: Date.now(),
-        private: true,
-        between: [this.state.targetedUser.username, user.username]
+        subscribers: [this.state.targetedUser.username, user.username]
       };
-      dispatch(actions.createChannel(newChannel));
-      this.changeActiveChannel(newChannel);
+      dispatch(actions.createConversation(newConversation));
+      this.changeActiveConversation(newConversation);
       socket.emit('new private channel', this.state.targetedUser.socketID, newChannel);
     }
     if(doesPrivateChannelExist.length > 0) {
-      this.changeActiveChannel(doesPrivateChannelExist[0]);
+      this.changeActiveChannel(doesConversationExist[0]);
     }
-    this.setState({ privateChannelModal: false, targetedUser: '' });
+    this.setState({ targetedUser: '' });
   }
   render() {
-    const { messages, socket, conversations, activeConversation, typers, dispatch, user, screenWidth, users} = this.props;
-    const filteredMessages = messages.filter(message => message.channelID === activeConversation);
-    const username = this.props.user.username;
+    const { messages, socket, conversations, activeConversation, typers, dispatch, user, screenWidth, users } = this.props;
+
 
     return (
       <div className='MainView'>
@@ -109,24 +102,19 @@ export default class Chat extends Component {
             <ChatList />
           </div>
           <div className='UserList'>
-            {Object.keys(users).map(function(key) {
+            <Subheader>All Users</Subheader>
+            {users.map((user, index) => (
               <div>
-                <ListItem
-                  key={users[key].id}
-                  primaryText={users[key]['_id']}
-                  rightIcon={<CommunicationChatBubble />}
-                />
+                <UserList user={user} />
               </div>
-            })}
+            ))}
           </div>
         </div>
         <div className='ActiveConversation'>
           <div className='ConversationHeader' />
           <div className='Conversation'>
             <ul style={{wordWrap: 'break-word', margin: '0', overflowY: 'auto', padding: '0', paddingBottom: '1em', flexGrow: '1', order: '1'}} ref="messageList">
-                {filteredMessages.map(message =>
-                  <MessageListItem handleClickOnUser={::this.handleClickOnUser} message={message} key={message.id} />
-                )}
+
             </ul>
           </div>
           <ConversationComposer className='ConversationComposer' activeConversation={activeConversation} socket={socket} user={user} onSave={::this.handleSave}/>
