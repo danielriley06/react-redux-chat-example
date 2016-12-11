@@ -8,7 +8,7 @@ import styles from './login.scss'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import {orange500, blue500} from 'material-ui/styles/colors'
+import { orange500, blue500 } from 'material-ui/styles/colors'
 /* eslint-enable no-unused-vars */
 
 export default class LoginView extends React.Component {
@@ -56,28 +56,28 @@ export default class LoginView extends React.Component {
     const styles = {
       textFieldStyle: {
         width: '90%',
-        paddingLeft: '5%',
+        paddingLeft: '5%'
       },
       loginStyle: {
         marginTop: 24,
-        padding: 12,
+        padding: 12
       },
       signupStyle: {
-        padding: 12,
+        padding: 12
       },
       underlineStyle: {
-        borderColor: orange500,
+        borderColor: orange500
       }
     }
 
     return (
       <Card style={{ width: '450px' }}>
         <CardHeader
-          title="Welcome to Slacker"
-          subtitle="A chat application built using React + Redux, Socket.io, with a little MaterialUI goodness sprinkled in. To get started either sign in or create an account below!"
+          title='Welcome to Slacker'
+          subtitle='A chat application built using React + Redux, Socket.io, with a little MaterialUI goodness sprinkled in. To get started either sign in or create an account below!'
         />
         <TextField
-          floatingLabelText="Enter or create a username"
+          floatingLabelText='Enter or create a username'
           style={styles.textFieldStyle}
           underlineFocusStyle={styles.underlineStyle}
           type='text'
@@ -85,7 +85,7 @@ export default class LoginView extends React.Component {
           id='username'
         />
         <TextField
-          floatingLabelText="Enter or create a password"
+          floatingLabelText='Enter or create a password'
           style={styles.textFieldStyle}
           underlineFocusStyle={styles.underlineStyle}
           type='password'
@@ -93,17 +93,17 @@ export default class LoginView extends React.Component {
           id='password'
         />
         <RaisedButton
-          label="Login"
-          primary={true}
+          label='Login'
+          primary
           style={styles.loginStyle}
-          fullWidth={true}
+          fullWidth
           onTouchTap={this._handleLogin}
         />
         <RaisedButton
-          label="Sign up"
-          secondary={true}
+          label='Sign up'
+          secondary
           style={styles.signupStyle}
-          fullWidth={true}
+          fullWidth
           onTouchTap={this._handleSignup}
         />
       </Card>

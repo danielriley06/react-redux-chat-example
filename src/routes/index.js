@@ -29,5 +29,4 @@ export const createRoutes = (store) => {
   }
 }
 
-
 export default createRoutes

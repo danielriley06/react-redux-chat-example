@@ -15,7 +15,7 @@ const app = express()
 mongoose.Promise = global.Promise
 mongoose.connect(project.mongo_uri)
 process.on('uncaughtException', function (err) {
-  console.log(err);
+  console.log(err)
 })
 
 // Initialize passport for auth
@@ -33,7 +33,6 @@ app.use('/api', usersRouter)
 app.use('/api', conversationRouter)
 
 // Initialize SocketIO server
-
 
 // This rewrites all routes requests to the root /index.html file
 // (ignoring file requests). If you want to implement universal

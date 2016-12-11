@@ -5,7 +5,7 @@ const debug = require('debug')('app:bin:dev-server')
 const SocketIo = require('socket.io')
 
 const server = http.createServer(appServerConfig)
-const io = new SocketIo(server, {path: '/api/chat'})
+const io = new SocketIo(server, { path: '/api/chat' })
 const socketEvents = require('../server/socketEvents')(io)
 
 server.listen(project.server_port)

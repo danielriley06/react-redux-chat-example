@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import * as actions from '../modules/Chat'
-import {receiveAuth} from 'store/auth'
+import { receiveAuth } from 'store/auth'
 import Chat from '../components/Chat'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -10,16 +10,16 @@ const socket = io('', { path: '/api/chat' })
 const initialConversation = 'Lobby' // NOTE: I hard coded this value for my example.  Change this as you see fit
 
 class ChatContainer extends Component {
-  componentWillMount() {
+  componentWillMount () {
     const { dispatch, user } = this.props
-    if(!user.username) {
+    if (!user.username) {
       dispatch(receiveAuth())
     }
     dispatch(actions.fetchUsers())
     dispatch(actions.fetchMessages(initialConversation))
     dispatch(actions.fetchConversations(user.username))
   }
-  render() {
+  render () {
     return (
       <Chat {...this.props} socket={socket} />
     )
@@ -35,15 +35,15 @@ ChatContainer.propTypes = {
   users: PropTypes.array.isRequired
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   return {
-      messages: state.conversations.messages.data,
-      conversations: state.conversations.conversations.data,
-      activeConversation: state.conversations.activeConversation.name,
-      user: state.auth.username,
-      typers: state.conversations.typers,
-      screenWidth: state.conversations.environment.screenWidth,
-      users: state.conversations.users.data
+    messages: state.conversations.messages.data,
+    conversations: state.conversations.conversations.data,
+    activeConversation: state.conversations.activeConversation.name,
+    user: state.auth.username,
+    typers: state.conversations.typers,
+    screenWidth: state.conversations.environment.screenWidth,
+    users: state.conversations.users.data
   }
 }
 export default connect(mapStateToProps)(ChatContainer)

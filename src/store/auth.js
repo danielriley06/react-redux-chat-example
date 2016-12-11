@@ -15,7 +15,6 @@ export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS'
 export const AUTH_NOT_LOGGED_IN = 'AUTH_NOT_LOGGED_IN'
 export const RECEIVE_SOCKET = 'RECEIVE_SOCKET'
 
-
 const Auth = new Record({
   isLoading: false,
   isAuthenticated: false,
@@ -24,8 +23,8 @@ const Auth = new Record({
   username: undefined
 })
 
-export function receiveAuth() {
-  const payload = {username: JSON.parse(sessionStorage.getItem('username'))}
+export function receiveAuth () {
+  const payload = { username: JSON.parse(sessionStorage.getItem('username')) }
   return {
     type: AUTH_LOGIN_SUCCESS,
     payload
@@ -104,13 +103,13 @@ export const signup = (payload) => {
   return (dispatch, getState) => {
     dispatch(authSignupRequest(payload))
     return fetch('/api/signup', {
-     method: 'post',
-     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'
-     },
-     body: JSON.stringify({
-       username: payload.username,
-       password: payload.password,
-     })
+      method: 'post',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: payload.username,
+        password: payload.password
+      })
     })
     .then(response => {
       if (response.status >= 200 && response.status <= 300) {
@@ -145,13 +144,13 @@ export const login = (payload) => {
   return (dispatch, getState) => {
     dispatch(authLoginRequest(payload))
     return fetch('/api/login', {
-     method: 'post',
-     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'
-     },
-     body: JSON.stringify({
-       username: payload.username,
-       password: payload.password,
-     })
+      method: 'post',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: payload.username,
+        password: payload.password
+      })
     })
     .then(response => {
       if (response.status >= 200 && response.status <= 300) {
@@ -187,17 +186,17 @@ export const logout = () => {
     dispatch(authLogoutRequest())
     return fetch('/api/logout')
       .then(response => {
-        if(response.ok) {
+        if (response.ok) {
           cookie.remove('username')
           dispatch(authLogoutSuccess())
           browserHistory.push('/')
         }
       })
-      .catch(error => {throw error});
+      .catch(error => { throw error })
   }
 }
 
-export function receiveSocket(socketID) {
+export function receiveSocket (socketID) {
   return {
     type: RECEIVE_SOCKET,
     socketID

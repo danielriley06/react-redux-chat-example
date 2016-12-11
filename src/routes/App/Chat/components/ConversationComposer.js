@@ -11,15 +11,15 @@ export default class MessageComposer extends Component {
     user: PropTypes.string.isRequired,
     socket: PropTypes.object.isRequired
   };
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context)
     this.state = {
       text: '',
       typing: false
-    };
+    }
   }
-  handleSubmit(event) {
-    const { user, socket, activeConversation} = this.props
+  handleSubmit (event) {
+    const { user, socket, activeConversation } = this.props
     const text = event.target.value.trim()
     if (event.which === 13) {
       event.preventDefault()
@@ -29,26 +29,26 @@ export default class MessageComposer extends Component {
         text: text,
         user: user,
         time: moment.utc().format('lll')
-      };
+      }
       socket.emit('new message', newMessage)
       socket.emit('stop typing', { user: user.username, channel: activeConversation })
       this.props.onSave(newMessage)
       this.setState({ text: '', typing: false })
     }
   }
-  handleChange(event) {
+  handleChange (event) {
     const { socket, user, activeConversation } = this.props
     this.setState({ text: event.target.value })
     if (event.target.value.length > 0 && !this.state.typing) {
       socket.emit('typing', { user: user.username, channel: activeConversation })
-      this.setState({ typing: true})
+      this.setState({ typing: true })
     }
     if (event.target.value.length === 0 && this.state.typing) {
       socket.emit('stop typing', { user: user.username, channel: activeConversation })
-      this.setState({ typing: false})
+      this.setState({ typing: false })
     }
   }
-  render() {
+  render () {
     return (
       <div style={{
         zIndex: '52',
@@ -65,12 +65,12 @@ export default class MessageComposer extends Component {
             fontSize: '2em',
             marginBottom: '1em'
           }}
-          fullWidth={true}
-          type="textarea"
-          name="message"
-          ref="messageComposer"
-          autoFocus="true"
-          hintText="Type here to chat!"
+          fullWidth
+          type='textarea'
+          name='message'
+          ref='messageComposer'
+          autoFocus='true'
+          hintText='Type here to chat!'
           value={this.state.text}
           onChange={::this.handleChange}
           onKeyDown={::this.handleSubmit}

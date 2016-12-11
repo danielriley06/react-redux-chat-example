@@ -6,7 +6,7 @@ import users from './users'
 import typers from './typers'
 import userValidation from './userValidation'
 import environment from './environment'
-import {combineReducers} from 'redux'
+import { combineReducers } from 'redux'
 
 const chatReducer = combineReducers({
   messages,

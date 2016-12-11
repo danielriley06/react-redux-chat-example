@@ -11,8 +11,6 @@ import FontIcon from 'material-ui/FontIcon'
 import ActionAndroid from 'material-ui/svg-icons/action/android'
 import { Tabs, Tab } from 'material-ui/Tabs'
 
-
-
 export const Header = () => (
   <AppBar
     title='Slacker'
@@ -30,6 +28,5 @@ export const Header = () => (
     }
   />
 )
-
 
 export default Header
